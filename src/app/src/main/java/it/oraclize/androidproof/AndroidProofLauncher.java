@@ -87,7 +87,7 @@ public class AndroidProofLauncher extends AppCompatActivity {
             serviceIntent.putExtra("url", mURL);
             serviceIntent.putExtra("requestID", mRequestID);
             serviceIntent.putExtra("method", mMethod);
-            serviceIntent.putExtra("data", mDataPayload);0
+            serviceIntent.putExtra("data", mDataPayload);
             serviceIntent.putExtra("readTimeout", intReadOutTimeOut);
             serviceIntent.putExtra("connectTimeout", intConnTimeOut);
             serviceIntent.putExtra("retriesMax", intRetriesMax);
