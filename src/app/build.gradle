@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+
+
+
+android {
+    signingConfigs {
+        releaseKeyProperties
+    }
+
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        applicationId "it.oraclize.androidproof"
+        minSdkVersion 27
+        targetSdkVersion 27
+        versionCode 3
+        versionName "1.2"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    productFlavors {
+    }
+
+    buildTypes {
+        debug {
+
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseKeyProperties
+        }
+    }
+}
+
+//Signed builds need a signing.properties file with keystore description, otherwise will generate unsigned
+def keyPropertiesFile = rootProject.file('signing.properties')
+
+if (keyPropertiesFile.exists()) {
+    println 'signing apk...'
+    def keyProperties = new Properties()
+    keyProperties.load(new FileInputStream(keyPropertiesFile))
+
+    android.buildTypes.release.signingConfig.keyPassword keyProperties['keyPassword']
+    android.buildTypes.release.signingConfig.storeFile file(keyProperties['storeFile'])
+    android.buildTypes.release.signingConfig.storePassword keyProperties['storePassword']
+    android.buildTypes.release.signingConfig.keyAlias keyProperties['keyAlias']
+} else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.google.android.gms:play-services-safetynet:15.0.1'
+    implementation 'commons-codec:commons-codec:1.10'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.4'
+
+    testImplementation 'org.mockito:mockito-core:2.12.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:3.8'
+
+    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+}
