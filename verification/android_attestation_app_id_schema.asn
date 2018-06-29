@@ -1,0 +1,13 @@
+Attestation DEFINITIONS ::= BEGIN
+
+  AttestationApplicationId ::= SEQUENCE {
+    package  SET OF AttestationPackageInfo,
+    signature  SET OF OCTET STRING
+  }
+
+  AttestationPackageInfo ::= SEQUENCE {
+    package  OCTET STRING,
+    version  INTEGER
+  }
+
+END 
