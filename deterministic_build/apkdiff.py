@@ -5,7 +5,7 @@ from zipfile import ZipFile
 
 class ApkDiff:
 
-    IGNORE_FILES = ["META-INF/MANIFEST.MF", "META-INF/CERT.RSA", "META-INF/CERT.SF"]
+    IGNORE_FILES = ["META-INF/MANIFEST.MF", "META-INF/CERT.RSA", "META-INF/CERT.SF", "resources.arsc"]
 
     def compare(self, newBuildApk, originalApk):
         newBuildApkZip      = ZipFile(newBuildApk, 'r')
